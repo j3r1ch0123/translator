@@ -3,6 +3,7 @@ from gtts import gTTS
 from pygame import mixer
 from deep_translator import GoogleTranslator
 import time
+import argparse
 
 # A dictionary of common languages and their codes
 languages = {
@@ -47,16 +48,19 @@ def main():
     # Show banner with instructions
     show_language_banner()
 
-    # Ask the user for the language code
-    language = input("Enter the language code you'd like to translate to: ")
-    
-    while True:
-        text = input("\nEnter the text you'd like to translate: ")
-        translation = translate(text, language)
-        print(f"Translated Text: {translation}")
-        
-        # Use gTTS to speak the translated text
-        speak(translation, language)
+    parser = argparse.ArgumentParser(description='Translator')
+    parser.add_argument('text', type=str, help='Text to translate')
+    parser.add_argument('language', type=str, help='Language code to translate to')
+    args = parser.parse_args()
+
+    text = args.text
+    language = args.language
+
+    translation = translate(text, language)
+    print(f"Translated Text: {translation}")
+
+    # Use gTTS to speak the translated text
+    speak(translation, language)
 
 if __name__ == "__main__":
     main()
